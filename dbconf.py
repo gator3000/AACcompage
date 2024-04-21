@@ -48,7 +48,25 @@ def init(connexion):
     """)
     connexion.cursor.execute("""
     CREATE TABLE route (
-
+        id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+        pupil int,
+        FOREIGN KEY(pupil) REFERENCES pupil (id)
+        title varchar(30),
+        lenght float(5),
+        departure varchar(100),
+        arrival varchar(100),
+        time varchar(5),
+        night bool,
+        city bool,
+        road bool,
+        highway bool,
+        u-turn int,
+        r-parallel int,
+        l-parallel int,
+        r-battle int,
+        f-battle int,
+        r-diagonalpark int,
+        l-diagonalpark int
     )
     ;
     """)

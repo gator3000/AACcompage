@@ -54,10 +54,10 @@ class Connexion:
         else:
             print("This function is not available in testing mode")
 
-    def INSERT(self, table:str, tableFields:tuple, values:tuple):
+    def INSERT(self, table:str, tableFields:tuple, values:str):
         if not self.testing:
             try:
-                cmd = f"""INSERT INTO {table} {"".join([e if e != "'" else "" for e in str(tableFields)])} VALUES {str(values)};"""
+                cmd = f"""INSERT INTO {table} {"".join([e if e != "'" else "" for e in str(tableFields)])} VALUES {values};"""
                 self.cursor.execute(cmd)
             except Exception as e:
                 self.connexion.rollback()

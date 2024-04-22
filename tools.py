@@ -3,9 +3,10 @@ import hashlib
 import datetime
 
 class User:
-    def __init__(self, name, myid) -> User:
+    def __init__(self, name, myid, mytype):
         self.name = name
         self.id = myid
+        self.type = mytype
     def __eq__(self, other) -> bool:
         return True if self.id == other.id else False
     def __repr__(self) -> str:
@@ -58,16 +59,27 @@ def pylist_tohtml(arg:list) -> str:
         result.append(closelist)
     return "".join(result)
 
-def sqlmessages_tohtml(arg, me) -> str:
-    result = list()
-    for e in arg:
-        author = e[0]
-        content = e[1]
-        me2 = ".me" if e[0] == me else ""
-        result.append(f'<span class="message{me2}">')
-        result.append(f'<p><b>{author}</b></p>')
-        result.append(f'<p class="message-content{me2}">{content}</p>')
-        result.append('</span>')
-    return "".join(result)
+# def sqlmessages_tohtml(arg, me) -> str:
+#     result = list()
+#     for e in arg:
+#         author = e[0]
+#         content = e[1]
+#         me2 = ".me" if e[0] == me else ""
+#         result.append(f'<span class="message{me2}">')
+#         result.append(f'<p><b>{author}</b></p>')
+#         result.append(f'<p class="message-content{me2}">{content}</p>')
+#         result.append('</span>')
+#     return "".join(result)
 
 
+
+
+
+
+
+
+
+
+
+def myrand():
+    return random.randint(0,10)

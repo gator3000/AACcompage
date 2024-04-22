@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<svg version="1.1" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 315 52.11" style="enable-background:new 0 0 315 52.11;" xml:space="preserve">
+      <style type="text/css">.st0{fill:#72BAD6;}	.st1{fill:#F7AA1E;}	.st2{fill:url(#SVGID_1_);}	.st3{fill:url(#SVGID_2_);}</style>
+    <metadata>
+              <sfw>
+                      <slices/>
+            <sliceSourceBounds bottomLeftOrigin="true" height="52.11" width="315" x="-57.5" y="-126.05"/>
+                  </sfw>
+          </metadata>
+    <g id="color_index_1" fill="rgba(255, 43, 43, 1)">
+              <path d="M204.63,28.3C159.3-3.74,115.78-2.27,100.95,2.77C89.57,6.63,76.54,20.91,71.06,27.39&#x9;&#x9;c-17.9,0.04-32.01,0.14-37.29,0.38C13.81,28.64,0,52.11,0,52.11C12.72,41.8,34.43,41.8,34.43,41.8s166.82-0.21,176.74,0&#x9;&#x9;c10.53,0.22,19.19,0.33,19.19,0.33C224.14,32.65,211.48,29.39,204.63,28.3z M89.44,27.38c4.23-5.58,9.76-11.53,15.5-13.94&#x9;&#x9;c10.35-4.34,36.78-4.89,65.37,14.17C147.98,27.51,116.67,27.39,89.44,27.38z"/>
+          </g>
+    <g id="color_index_0" fill="rgba(239, 239, 239, 1)">
+              <path d="M227.7,25.17c-0.4-5.86,68.74-5.86,68.74-5.86s-98.09-3.75-102.32-10.47c-2.77-4.4,53.53-4.6,53.53-4.6&#x9;&#x9;l-94.04-3.56h-2.19c17.91,3.67,35.08,9.52,56.36,24.56c9.65,1.1,23.46,8.55,28.51,17.1c14.91-4.91,78.72-4.2,78.72-4.2&#x9;&#x9;S228.25,33.34,227.7,25.17z"/>
+          </g>
+    <g>
+              <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="7.257145e-05" y1="39.7402" x2="230.3567" y2="39.7402">
+                      <stop offset="0" style="stop-color:#000000;stop-opacity:0.4"/>
+            <stop offset="1" style="stop-color:#000000;stop-opacity:0"/>
+                  </linearGradient>
+        <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="171.4168" y1="61.4205" x2="103.8346" y2="-6.1618">
+                      <stop offset="0" style="stop-color:#000000;stop-opacity:0.4"/>
+            <stop offset="1" style="stop-color:#000000;stop-opacity:0"/>
+                  </linearGradient>
+        <path class="st2" d="M0,52.11c0,0,13.81-23.46,33.77-24.34c19.95-0.88,166.22,0,166.22,0s21.6,0.99,30.37,14.36&#x9;&#x9;c0,0-8.66-0.11-19.19-0.33c-9.93-0.21-176.74,0-176.74,0S12.72,41.8,0,52.11z"/>
+        <path class="st3" d="M89.43,27.38c4.24-5.61,9.73-11.52,15.5-13.94c10.33-4.33,36.68-4.89,65.21,14.06h26.21&#x9;&#x9;c2.78,0,5.53,0.26,8.22,0.76c-45.31-32-88.8-30.53-103.63-25.49C89.51,6.65,76.48,20.96,71.05,27.38H89.43z"/>
+          </g>
+  </svg>

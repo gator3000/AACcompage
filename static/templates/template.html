@@ -8,6 +8,12 @@
     <title>${myPageName} | ACCompagné</title>
   </head>
   <body>
-    ${self.body()}
+    <div id="container">
+      <div class="banner">
+        <a id="image-banner-link" href="/"><img id="image-banner" src="static/assets/header.png" alt="Logo of 'ACCompagné'"></a>
+        <h1 id="title">ACCompagné</h1>
+      </div>
+      ${self.body()}
+    </div>
   </body>
 </html>

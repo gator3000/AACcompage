@@ -1,0 +1,53 @@
+body {
+    background: linear-gradient(90deg, #777777, #444444);
+    color: #ffffff;
+}
+
+#container {
+    display: grid;
+    grid-gap: 25px;
+}
+
+.banner {
+    grid-column: 1 / 5;
+    grid-row: 1;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    display: grid;
+}
+
+h1 {
+    grid-row: 1;
+    grid-column: 2 / 5;
+}
+
+.menu {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    padding-top: 10%;
+    padding-left: 2%;
+    padding-right: 5%;
+}
+
+.content {
+    grid-column: 2 / 5;
+    grid-row: 2 / 5;
+}
+
+#image-banner-link {
+    grid-row: 1;
+    grid-column: 1 / 1;
+}
+
+#image-banner {
+    width: 60%;
+    height: 10%;
+    min-width: 100px;
+    max-width: 500px;
+    min-height: 84px;
+    max-height: 300px;
+}
+
+a {
+    color: #dddddd;
+}

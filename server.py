@@ -30,10 +30,20 @@ class Website(object):
             tools.write_log("DATABASE", "200 connexion made")
             print(tools.log_now("DATABASE initialized"))
 
+
+
+
     @cherrypy.expose
     def index(self, **kwargs):
         mytemplate = self.lookup.get_template("index.html")
         return mytemplate.render(myPageName="Acceuil")
+    
+    @cherrypy.expose
+    def driving_schools(self, **kwargs):
+        mytemplate = self.lookup.get_template("driving-schools.html")
+        pylistofds = self.connexion.SELECT("*", "drivingschools")
+        listofds = tools.pylistofdstohtml(pylistofds)
+        return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds)
 
 
 if __name__ == "__main__":

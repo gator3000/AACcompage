@@ -59,6 +59,22 @@ def pylist_tohtml(arg:list) -> str:
         result.append(closelist)
     return "".join(result)
 
+def pylistofdstohtml(arg:tuple) -> str:
+    result = list()
+    result.append("<ul>")
+    for ds in arg:
+        result.append("<li>")
+        result.append("<h4>")
+        result.append(ds[1])
+        result.append("</h4>")
+        result.append("<p>")
+        result.append("📍 " + ds[2] + "<br>")
+        result.append("🖨️ " + ds[3] + "<br>")
+        result.append("</p>")
+        result.append("</li>")
+    result.append("</ul>")
+    return "".join(result)
+
 # def sqlmessages_tohtml(arg, me) -> str:
 #     result = list()
 #     for e in arg:

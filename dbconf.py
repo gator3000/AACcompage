@@ -18,8 +18,9 @@ def init(connexion):
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             name VARCHAR(50) NOT NULL,
             email VARCHAR(50) NOT NULL,
-            password VARCHAR(256) NOT NULL,
-            adress VARCHAR(256) NOT NULL
+            adress VARCHAR(256) NOT NULL,
+            number VARCHAR(10) NOT NULL,
+            password VARCHAR(256) NOT NULL
         );
         """)
     except:
@@ -54,7 +55,7 @@ def init(connexion):
         pass
     try:
         connexion.cursor.execute("""
-        CREATE TABLE route (
+        CREATE TABLE routes (
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             pupil INT NOT NULL,
             FOREIGN KEY(pupil) REFERENCES drivingpupils (id),

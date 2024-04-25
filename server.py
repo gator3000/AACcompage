@@ -41,10 +41,19 @@ class Website(object):
     @cherrypy.expose
     def driving_schools(self, **kwargs):
         mytemplate = self.lookup.get_template("driving-schools.html")
-        pylistofds = self.connexion.SELECT("*", "drivingschools")
+        pylistofds = self.connexion.SELECT("name, adress, email", "drivingschools")
         listofds = tools.pylistofdstohtml(pylistofds)
         return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds)
 
+    @cherrypy.expose
+    def adding_driving_school(self, **kwargs):
+        mytemplate = self.lookup.get_template("adding-driving-school.html")
+        return mytemplate.render(myPageName="Ajouter Votre Entreprise")
+
+    @cherrypy.expose
+    def adding_new_driving_school(self, **kwargs):
+        if tools.are_all_in("name", "adress", "email", "number", iterable=kwargs):
+            raise cherrypy.HTTPRedirect("/driving_schools")
 
 if __name__ == "__main__":
     # port 16384

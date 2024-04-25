@@ -1,0 +1,38 @@
+<%inherit file="template.html"/>
+<div class="menu">
+    <ul>
+        <li class="pageslinks"><a href="/">Accueil</a></li>
+        <li class="pageslinks"><a href="/driving-schools">Auto-Écoles Inscrites</a></li>
+    </ul>
+</div>
+<div class="content-field">
+    <h3>Ajouter votre Auto-École</h3>
+    <p>Vous pouvez ajouter gratuitement - bien sur ! - votre entreprise pour gagner en visibilitée et mieux gérer les avancées de vos élèves.</p>
+    
+    <form id="adding-new-school-form" method="post" action="/adding-new-driving-school">
+        <span class="input-field">
+            <label for="name">* Nom de Votre Auto-École :</label>
+            <input type="text" id="name-input" name="name">
+        </span><br>
+        <span class="input-field">
+            <label for="adress">* Adresse de Votre Auto-École :</label>
+            <input type="text" id="adress-input" name="adress">
+        </span><br>
+        <span class="input-field">
+            <label for="email">* Contact e-mail de Votre Auto-École :</label>
+            <input type="text" id="adress-input" name="email">
+        </span><br>
+        <span class="input-field">
+            <label for="number">* Contact par numéro de téléphone :</label>
+            <input type="text" id="adress-input" name="number">
+        </span>
+        <span class="input-field">
+            <label for="password">* Votre Mot de Passe  :</label>
+            <input type="text" id="adress-input" name="password">
+        </span>
+        <span class="input-field">
+            <label for="retyped-password">* Réécrivez votre mot de passe :</label>
+            <input type="text" id="adress-input" name="retyped-password">
+        </span>
+    </form>
+</div>

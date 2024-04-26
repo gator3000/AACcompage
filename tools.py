@@ -66,11 +66,22 @@ def pylistofdstohtml(arg:tuple) -> str:
         result.append("<li><h4>")
         result.append(ds[0])
         result.append("</h4><p>")
-        result.append("📍 " + ds[2] + "<br>")
-        result.append("🖨️ " + ds[1] + "<br>")
+        result.append("📍 " + ds[1] + "<br>")
+        result.append("🖨️ " + ds[2] + "<br>")
+        result.append("☎️ " + "".join([x + " " for x in number_split(ds[3], 2)]) + "<br>")
         result.append("</p></li>")
     result.append("</ul>")
     return "".join(result)
+
+def number_split(arg:str, max:int) -> list:
+    result = list()
+    for i in range(0, len(arg), max):
+        result.append(arg[i:i+max])
+    return result
+
+
+
+
 
 # def sqlmessages_tohtml(arg, me) -> str:
 #     result = list()

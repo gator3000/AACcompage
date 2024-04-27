@@ -64,3 +64,17 @@ a {
 .form-error-field {
     color: #ff0000;
 }
+
+.list-title-for-show-teachers {
+    font-size: large;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ffffff00;
+    border-color: #ffffff00;
+}
+
+.list-title-for-show-teachers:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+

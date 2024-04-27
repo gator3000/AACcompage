@@ -40,7 +40,19 @@ class Website(object):
     @cherrypy.expose
     def driving_schools(self, **kwargs):
         mytemplate = self.lookup.get_template("driving-schools.html")
-        pylistofds = self.connexion.SELECT("name, adress, email, number", "drivingschools")
+        if "show-teachers" in kwargs:
+            current_id = kwargs["show-teachers"]
+            id_list = [int(x[0]) for x in self.connexion.SELECT("id", "drivingschools")]
+            # print(id_list)
+            # print(current_id)
+            # print(current_id in id_list)
+            #if current_id in id_list:
+            school = self.connexion.SELECT("id, name, adress, email, number", "drivingschools", f"id = {current_id}")[0]
+            name = school[1]
+            mydteachers = self.connexion.SELECT("firstname, lastname, email", "drivingteachers", f"drivingschool = {current_id}")
+            text = tools.format_ds_page(school, mydteachers)
+            return mytemplate.render(myPageName=name, drivingschools=text)
+        pylistofds = self.connexion.SELECT("name, adress, email, number, id", "drivingschools")
         listofds = tools.pylistofdstohtml(pylistofds)
         return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds)
 
@@ -69,6 +81,11 @@ class Website(object):
         mytemplate = self.lookup.get_template("adding-driving-school.html")
         return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror=myerror)
 
+
+    @cherrypy.expose
+    def see_driving_school(self, **kwargs):
+        mytemplate = self.lookup.get_template("see-driving-school.html")
+        return mytemplate.render(myPageName=name, mycontent=content)
 
 if __name__ == "__main__":
     # port 16384

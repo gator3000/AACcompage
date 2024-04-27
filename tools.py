@@ -64,7 +64,10 @@ def pylistofdstohtml(arg:tuple) -> str:
     result.append("<ul>")
     for ds in arg:
         result.append("<li><h4>")
-        result.append(ds[0])
+        result.append(f'''<form action="/driving-schools" method="get">
+        <input hidden type="text" name="show-teachers" value="{ds[4]}">
+        <input class="list-title-for-show-teachers" type="submit" value="{ds[0]}">
+        </form>''')
         result.append("</h4><p>")
         result.append("📍 " + ds[1] + "<br>")
         result.append("🖨️ " + ds[2] + "<br>")
@@ -78,6 +81,20 @@ def number_split(arg:str, max:int) -> list:
     for i in range(0, len(arg), max):
         result.append(arg[i:i+max])
     return result
+
+def format_ds_page(school, teachers) -> str:
+    result = list()
+    result.append(f"<a href='/driving-schools'><img width='20px' src='/static/assets/retour.png' alt='Retour'></a>")
+    result.append(f"<h3>{school[1]}</h3>")
+    result.append(f"Cette auto école se situe au {school[2]}.<br>Vous povez la contacter au { ''.join([x + ' ' for x in number_split(school[4], 2)])} ou en evoyant un mail à <a href='mailto:{school[3]}'>{school[3]}</a>.<br>")
+    result.append(f"Elle à {len(teachers)} moniteur.rice.s différent.e.s : <br>")
+    result.append("<ul>")
+    for teacher in teachers:
+        result.append("<li>")
+        result.append(f"<h5>{teacher[0]} {teacher[1]}</h5>")
+        result.append("</li>")
+    result.append("</ul>")
+    return "".join(result)
 
 
 

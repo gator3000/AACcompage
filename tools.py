@@ -3,14 +3,17 @@ import hashlib
 import datetime
 
 class User:
-    def __init__(self, name, myid, mytype):
+    def __init__(self, name, email, mytype, myid=-1):
         self.name = name
         self.id = myid
         self.type = mytype
+        self.email = email
     def __eq__(self, other) -> bool:
-        return True if self.id == other.id else False
+        return True if self.id == other.id and self.type == other.type else False
     def __repr__(self) -> str:
-        return self.name
+        return self.type + " user as : " + self.name
+    def get_email(self):
+        return self.email.split("@")[0][0:2] + "*"*(len(self.email.split("@")[0]) - 2) + "@" + self.email.split("@")[1]
         
 
 def write_log(domain = "TESTING", content = "", file = "timeline.log") -> None:
@@ -87,7 +90,7 @@ def format_ds_page(school, teachers) -> str:
     result.append(f"<a href='/driving-schools'><img width='20px' src='/static/assets/retour.png' alt='Retour'></a>")
     result.append(f"<h3>{school[1]}</h3>")
     result.append(f"Cette auto école se situe au {school[2]}.<br>Vous povez la contacter au { ''.join([x + ' ' for x in number_split(school[4], 2)])} ou en evoyant un mail à <a href='mailto:{school[3]}'>{school[3]}</a>.<br>")
-    result.append(f"Elle à {len(teachers)} moniteur.rice.s différent.e.s : <br>")
+    result.append(f"Elle a {len(teachers)} moniteur.rice.s différent.e.s : <br>")
     result.append("<ul>")
     for teacher in teachers:
         result.append("<li>")

@@ -15,8 +15,9 @@ def E500(**kwargs):
 
 class Website(object):
     def __init__(self):
-        self.ANNONYMOUS = tools.User("Annonymous", -5, "user")
+        self.ANNONYMOUS = tools.User("Annonymous", "john.doe@gmail.com", "annonyme", -1)
         self.lookup = TemplateLookup(directories=['static/templates'], input_encoding='utf-8', module_directory='static/tmp/mako_modules')
+        self.accountdict = {"myname": "", "mytype": ""}
         try:
             print(tools.log_now("DATABASE starting connexion"))
             self.connexion=Connexion()
@@ -34,11 +35,16 @@ class Website(object):
 
     @cherrypy.expose
     def index(self, **kwargs):
+        #print(cherrypy.session["current_account"].id)
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("index.html")
-        return mytemplate.render(myPageName="Acceuil")
+        return mytemplate.render(myPageName="Acceuil", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
     
     @cherrypy.expose
     def driving_schools(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("driving-schools.html")
         if "show-teachers" in kwargs:
             current_id = kwargs["show-teachers"]
@@ -51,18 +57,22 @@ class Website(object):
             name = school[1]
             mydteachers = self.connexion.SELECT("firstname, lastname, email", "drivingteachers", f"drivingschool = {current_id}")
             text = tools.format_ds_page(school, mydteachers)
-            return mytemplate.render(myPageName=name, drivingschools=text)
+            return mytemplate.render(myPageName=name, drivingschools=text, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
         pylistofds = self.connexion.SELECT("name, adress, email, number, id", "drivingschools")
         listofds = tools.pylistofdstohtml(pylistofds)
-        return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds)
+        return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
 
     @cherrypy.expose
     def adding_driving_school(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("adding-driving-school.html")
-        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror="")
+        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror="", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
 
     @cherrypy.expose
     def adding_new_driving_school(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         # INSERT INTO drivingschools (name, adress, email, number, password) VALUES ("CAR'rément Permis",  "47 Rue Victor Hugo à Villefranche", "carrementpermis@gmail.com", "0481480203", "835d6dc88b708bc646d6db82c853ef4182fabbd4a8de59c213f2b5ab3ae7d9be");
         if tools.are_all_in("name", "adress", "email", "number", "password", "retyped-password", iterable=kwargs):
             if not tools.are_empty(kwargs["name"], kwargs["adress"], kwargs["email"], kwargs["number"], kwargs["password"], kwargs["retyped-password"]):
@@ -70,6 +80,7 @@ class Website(object):
                     if len(kwargs["name"]) < 256:
                         if len(kwargs["adress"]) < 256:
                             if kwargs["password"] == kwargs["retyped-password"]:
+                                # TODO: Faire pour ne pas avoir de doublons d'email
                                 self.connexion.INSERT("drivingschools", ("name", "adress", "email", "number", "password"), f""" ("{kwargs['name']}", "{kwargs['adress']}", "{kwargs['email']}", "{kwargs['number']}", "{tools.hashme(kwargs['password'])}" )""")
                                 raise cherrypy.HTTPRedirect("/driving_schools")
                             else:myerror = "Le mot de passe n'est pas le même que celui reécris."
@@ -79,13 +90,32 @@ class Website(object):
             else:myerror = "Remplisez bien tous les champs marqués d'une étoile (tous)."
         else:myerror = ""
         mytemplate = self.lookup.get_template("adding-driving-school.html")
-        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror=myerror)
+        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
 
 
     @cherrypy.expose
-    def see_driving_school(self, **kwargs):
-        mytemplate = self.lookup.get_template("see-driving-school.html")
-        return mytemplate.render(myPageName=name, mycontent=content)
+    def login(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
+        if tools.are_all_in("type", "id", "password", iterable=kwargs):
+            mytype = kwargs["type"]
+            myid = kwargs["id"]
+            mypassword = kwargs["password"]
+            if not tools.are_empty(mytype, myid, mypassword):
+                if mytype in ["drivingschools", "drivingteachers", "drivingpupils"]:
+                    tables = "id, email, password, name" if mytype == "drivingschools" else "id, email, password, firstname"
+                    account = self.connexion.SELECT(tables, mytype, f"email = '{myid}'")
+                    if len(account) == 1:
+                        if account[0][2] == tools.hashme(mypassword):
+                            cherrypy.session["current_account"] = tools.User(account[0][3], myid, mytype, account[0][0])
+                        else:myerror = "Identifiant ou mot de passe invalide"
+                    else:myerror = "Identifiant ou mot de passe invalide"
+                else: myerror = "Test"
+            else:myerror = "Remplissez bien tout les champs marqués d'une étoile (tous)"
+        else:myerror = ""
+        myerror = ""
+        mytemplate = self.lookup.get_template("login.html")
+        return mytemplate.render(myPageName="S'identifier", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
 
 if __name__ == "__main__":
     # port 16384

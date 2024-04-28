@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
@@ -12,6 +13,11 @@
       <div class="banner">
         <a id="image-banner-link" href="/"><img id="image-banner" src="static/assets/header.png" alt="Logo of 'ACCompagné'"></a>
         <h1 id="title">ACCompagné</h1>
+        <div id="account-div">
+          <h4>${myname}</h4>
+          <p class="hey">${myemail}</p>
+          <p class="hey">${mytype}</p>
+        </div>
       </div>
       ${self.body()}
     </div>

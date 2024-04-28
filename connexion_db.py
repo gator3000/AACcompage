@@ -45,6 +45,7 @@ class Connexion:
         if not self.testing:
             try:
                 cmd = f"""SELECT {what} FROM {fromarg}""" + (f""" WHERE {where}""" if where is not None else str()) + (f""" JOIN {join}""" if join is not None else str()) + (f""" ORDER BY {orderby}""" if orderby is not None else str()) + ";"
+                print(cmd)
                 self.cursor.execute(cmd)
             except Exception as e:
                 print(e)

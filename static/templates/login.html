@@ -1,0 +1,30 @@
+<%inherit file="template.html"/>
+<div class="menu">
+    <ul>
+        <li class="pageslinks"><a href="/">Accueil</a></li>
+        <li class="pageslinks"><a href="/driving-schools">Auto-Écoles Inscrites</a></li>
+        <li class="pageslinks"><a href="/adding-driving-school">Ajouter Votre Auto-École</a></li>
+    </ul>
+</div>
+<div class="content-field">
+    <h3>Connectez vous !</h3>
+    <form id="login-form" method="post" action="/login">
+        <span class="input-field">
+            <label class="form-label" for="id">* Type de Compte :</label><br>
+            <input type="radio" id="radio-input" name="type" value="drivingschools">Auto-École</input><br>
+            <input type="radio" id="radio-input" name="type" value="drivingteachers">Moniteur</input><br>
+            <input type="radio" id="radio-input" name="type" value="drivingpupils">Élève</input>
+        </span><br><br>
+        <span class="input-field">
+            <label class="form-label" for="id">* E-mail :</label>
+            <input type="email" id="id-input" name="id" required>
+        </span><br>
+        <span class="input-field">
+            <label class="form-label" for="password">* Mot De Passe :</label>
+            <input type="password" id="password-input" name="password" required>
+        </span><br>
+        <input type="submit" id="submit-button" value="Connection">
+
+        <b><p class="form-error-field">${myerror}</p></b>
+    </form>
+</div>

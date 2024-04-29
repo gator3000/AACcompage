@@ -133,6 +133,17 @@ class Website(object):
         mytemplate = self.lookup.get_template("adding-driving-teacher.html")
         return mytemplate.render(myPageName="Ajouter un Moniteur", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
 
+    @cherrypy.expose
+    def adding_new_driving_teacher(self, **kwargs):
+        if tools.are_all_in("firstname", "lastname", "email", iterable=kwargs):
+            firstname = kwargs["firstname"]
+            lastname = kwargs["lastname"]
+            email = kwargs["email"]
+            if not tools.are_empty(firstname, lastname, email):
+                pass
+            else:myerror="Remplissez bien tous les champs marqués d'une étoile (tous)."
+        else:myerror=""
+
 
 if __name__ == "__main__":
     # port 16384

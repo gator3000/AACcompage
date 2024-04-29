@@ -30,6 +30,16 @@ class Website(object):
             tools.write_log("DATABASE", "200 connexion made")
             print(tools.log_now("DATABASE initialized"))
 
+    def check_specific_links(self, account):
+        if account.type == "drivingschools":
+            links = """<li class="pageslinks"><a href="/adding-driving-teacher">Ajouter un Moniteur</a></li>"""
+        elif account.type == "drivingteachers":
+            links = """"""
+        elif account.type == "drivingteachers":
+            links = """"""
+        else:
+            links = ""
+        return links
 
 
 
@@ -39,7 +49,7 @@ class Website(object):
         if "current_account" not in cherrypy.session.keys():
             cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("index.html")
-        return mytemplate.render(myPageName="Acceuil", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        return mytemplate.render(myPageName="Acceuil", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type, specific_links="")
     
     @cherrypy.expose
     def driving_schools(self, **kwargs):
@@ -116,6 +126,13 @@ class Website(object):
         myerror = ""
         mytemplate = self.lookup.get_template("login.html")
         return mytemplate.render(myPageName="S'identifier", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+
+    @cherrypy.expose
+    def adding_driving_teacher(self, **kwargs):
+        myerror = ""
+        mytemplate = self.lookup.get_template("adding-driving-teacher.html")
+        return mytemplate.render(myPageName="Ajouter un Moniteur", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+
 
 if __name__ == "__main__":
     # port 16384

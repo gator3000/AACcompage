@@ -5,6 +5,7 @@
         <li class="pageslinks"><a href="/driving-schools">Auto-Écoles Inscrites</a></li>
         <li class="pageslinks"><a href="/adding-driving-school">Ajouter Votre Auto-École</a></li>
         <li class="pageslinks"><a href="/login">S'identifier</a></li>
+        ${specific_links}
     </ul>
 </div>
 <div class="content-field">
@@ -13,7 +14,7 @@
     
     <form id="adding-new-school-form" method="post" action="/adding-new-driving-school">
         <span class="input-field">
-            <label class="form-label" for="firstname">* Nom du Moniteur :</label>
+            <label class="form-label" for="firstname">* Prénom du Moniteur :</label>
             <input type="text" id="firstname-input" name="firstname" required>
         </span><br>
         <span class="input-field">
@@ -21,7 +22,7 @@
             <input type="text" id="lastname-input" name="lastname" required>
         </span><br>
         <span class="input-field">
-            <label class="form-label" for="email">* Contact e-mail de Votre Auto-École :</label>
+            <label class="form-label" for="email">* E-mail du Moniteur :</label>
             <input type="email" id="adress-input" name="email" required>
         </span><br>
         <!-- <span class="input-field">

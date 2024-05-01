@@ -14,6 +14,16 @@ class User:
         return self.type + " user as : " + self.name
     def get_email(self):
         return self.email.split("@")[0][0:2] + "*"*(len(self.email.split("@")[0]) - 2) + "@" + self.email.split("@")[1]
+    def check_specific_links(self):
+        if self.type == "drivingschools":
+            links = """<li class="pageslinks"><a href="/adding-driving-teacher">Ajouter un Moniteur</a></li>"""
+        elif self.type == "drivingteachers":
+            links = """"""
+        elif self.type == "drivingteachers":
+            links = """"""
+        else:
+            links = ""
+        return links
         
 
 def write_log(domain = "TESTING", content = "", file = "timeline.log") -> None:

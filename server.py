@@ -49,7 +49,8 @@ class Website(object):
         if "current_account" not in cherrypy.session.keys():
             cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("index.html")
-        return mytemplate.render(myPageName="Acceuil", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type, specific_links="")
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="Acceuil", specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
     
     @cherrypy.expose
     def driving_schools(self, **kwargs):
@@ -67,17 +68,20 @@ class Website(object):
             name = school[1]
             mydteachers = self.connexion.SELECT("firstname, lastname, email", "drivingteachers", f"drivingschool = {current_id}")
             text = tools.format_ds_page(school, mydteachers)
-            return mytemplate.render(myPageName=name, drivingschools=text, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+            account = cherrypy.session["current_account"]
+            return mytemplate.render(myPageName=name, drivingschools=text, account=account)
         pylistofds = self.connexion.SELECT("name, adress, email, number, id", "drivingschools")
         listofds = tools.pylistofdstohtml(pylistofds)
-        return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="Auto-Écoles", drivingschools=listofds, specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
 
     @cherrypy.expose
     def adding_driving_school(self, **kwargs):
         if "current_account" not in cherrypy.session.keys():
             cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("adding-driving-school.html")
-        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror="", myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror="", specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
 
     @cherrypy.expose
     def adding_new_driving_school(self, **kwargs):
@@ -100,7 +104,8 @@ class Website(object):
             else:myerror = "Remplisez bien tous les champs marqués d'une étoile (tous)."
         else:myerror = ""
         mytemplate = self.lookup.get_template("adding-driving-school.html")
-        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="Ajouter Votre Entreprise", myerror=myerror, specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
 
 
     @cherrypy.expose
@@ -118,6 +123,7 @@ class Website(object):
                     if len(account) == 1:
                         if account[0][2] == tools.hashme(mypassword):
                             cherrypy.session["current_account"] = tools.User(account[0][3], myid, mytype, account[0][0])
+                            raise cherrypy.HTTPRedirect("/")
                         else:myerror = "Identifiant ou mot de passe invalide"
                     else:myerror = "Identifiant ou mot de passe invalide"
                 else: myerror = "Test"
@@ -125,16 +131,22 @@ class Website(object):
         else:myerror = ""
         myerror = ""
         mytemplate = self.lookup.get_template("login.html")
-        return mytemplate.render(myPageName="S'identifier", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="S'identifier", myerror=myerror, specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
 
     @cherrypy.expose
     def adding_driving_teacher(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         myerror = ""
         mytemplate = self.lookup.get_template("adding-driving-teacher.html")
-        return mytemplate.render(myPageName="Ajouter un Moniteur", myerror=myerror, myname=cherrypy.session["current_account"].name, myemail=cherrypy.session["current_account"].get_email(), mytype=cherrypy.session["current_account"].type)
+        account = cherrypy.session["current_account"]
+        return mytemplate.render(myPageName="Ajouter un Moniteur", myerror=myerror, specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
 
     @cherrypy.expose
     def adding_new_driving_teacher(self, **kwargs):
+        if "current_account" not in cherrypy.session.keys():
+            cherrypy.session["current_account"] = self.ANNONYMOUS
         if tools.are_all_in("firstname", "lastname", "email", iterable=kwargs):
             firstname = kwargs["firstname"]
             lastname = kwargs["lastname"]

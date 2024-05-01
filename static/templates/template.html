@@ -14,9 +14,9 @@
         <a id="image-banner-link" href="/"><img id="image-banner" src="static/assets/header.png" alt="Logo of 'ACCompagné'"></a>
         <h1 id="title">ACCompagné</h1>
         <div id="account-div">
-          <h4>${myname}</h4>
-          <p class="hey">${myemail}</p>
-          <p class="hey">${mytype}</p>
+          <h4>${account.name}</h4>
+          <p class="hey">${account.get_email()}</p>
+          <p class="hey">${account.type}</p>
         </div>
       </div>
       ${self.body()}

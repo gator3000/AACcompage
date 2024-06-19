@@ -88,15 +88,19 @@ class Website(object):
         if "current_account" not in cherrypy.session.keys():
             cherrypy.session["current_account"] = self.ANNONYMOUS
         # INSERT INTO drivingschools (name, adress, email, number, password) VALUES ("CAR'rément Permis",  "47 Rue Victor Hugo à Villefranche", "carrementpermis@gmail.com", "0481480203", "835d6dc88b708bc646d6db82c853ef4182fabbd4a8de59c213f2b5ab3ae7d9be");
-        if tools.are_all_in("name", "adress", "email", "number", "password", "retyped-password", iterable=kwargs):
+        if tools.are_all_in("name", "adress", "email", "number", "password", "retyped-password", "description", iterable=kwargs):
             if not tools.are_empty(kwargs["name"], kwargs["adress"], kwargs["email"], kwargs["number"], kwargs["password"], kwargs["retyped-password"]):
                 if len(kwargs["number"]) == 10 and kwargs["number"][0] == "0" and " " not in kwargs["number"]:
                     if len(kwargs["name"]) < 256:
                         if len(kwargs["adress"]) < 256:
                             if kwargs["password"] == kwargs["retyped-password"]:
-                                # TODO: Faire pour ne pas avoir de doublons d'email
-                                self.connexion.INSERT("drivingschools", ("name", "adress", "email", "number", "password"), f""" ("{kwargs['name']}", "{kwargs['adress']}", "{kwargs['email']}", "{kwargs['number']}", "{tools.hashme(kwargs['password'])}" )""")
-                                raise cherrypy.HTTPRedirect("/driving_schools")
+                                if "@" in kwargs['email'] and kwargs['email'].split("@")[1]:
+                                    emails = self.connexion.SELECT("*", "drivingschools", f"email = {kwargs['email']}")
+                                    if not emails:
+                                        self.connexion.INSERT("drivingschools", ("name", "adress", "email", "number", "password"), f""" ("{kwargs['name']}", "{kwargs['adress']}", "{kwargs['email']}", "{kwargs['number']}", "{tools.hashme(kwargs['password'])}" )""")
+                                        raise cherrypy.HTTPRedirect("/driving_schools")
+                                    else:myerror = "L'adresse e-mail est déjà utilisée."
+                                else:myerror = "L'adresse e-mail n'est pas du bon format !"
                             else:myerror = "Le mot de passe n'est pas le même que celui reécris."
                         else:myerror = "L'adresse de votre Auto-École ne doit pas faire plus de 256 charactères. Essayez de le racourcir."
                     else:myerror = "Le nom de votre entreprise ne doit pas faire plus de 256 charactères."

@@ -1,13 +1,13 @@
 # User Configuration
 
-user_db = "accompagnerbot"
+user_db = "aaccompagnebot"
 password = "pakls!08ù"
 
 
 # Database Configuration
 
 db_host = "localhost"
-database = "accompagne"
+database = "AACcompagne"
 
 
 # Initialization
@@ -17,6 +17,7 @@ def init(connexion):
         CREATE TABLE drivingschools (
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             name VARCHAR(50) NOT NULL,
+            description VARCHAR(1000),
             email VARCHAR(50) NOT NULL,
             adress VARCHAR(256) NOT NULL,
             number VARCHAR(10) NOT NULL,
@@ -45,6 +46,7 @@ def init(connexion):
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             firstname VARCHAR(20) NOT NULL,
             lastname VARCHAR(30) NOT NULL,
+            comment VARCHAR(200),
             email VARCHAR(50) NOT NULL,
             password VARCHAR(256) NOT NULL,
             drivingschool INT NOT NULL,
@@ -60,6 +62,7 @@ def init(connexion):
             pupil INT NOT NULL,
             FOREIGN KEY(pupil) REFERENCES drivingpupils (id),
             title VARCHAR(30) NOT NULL,
+            date VARCHAR(8) NOT NULL,
             lenght float(5) NOT NULL,
             departure VARCHAR(100),
             arrival VARCHAR(100),

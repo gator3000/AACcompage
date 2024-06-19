@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import cherrypy as cherrypy
 from mako.template import Template
 from mako.lookup import TemplateLookup

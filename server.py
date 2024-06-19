@@ -55,7 +55,8 @@ class Website(object):
             cherrypy.session["current_account"] = self.ANNONYMOUS
         mytemplate = self.lookup.get_template("index.html")
         account = cherrypy.session["current_account"]
-        return mytemplate.render(myPageName="Acceuil", specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account)
+        stats={"driving-pupils": len(self.connexion.SELECT("*","drivingpupils")), "driving-schools": len(self.connexion.SELECT("*","drivingschools"))}
+        return mytemplate.render(myPageName="Acceuil", specific_links=self.check_specific_links(cherrypy.session["current_account"]), account=account, stats=stats)
     
     @cherrypy.expose
     def driving_schools(self, **kwargs):

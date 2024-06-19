@@ -12,8 +12,10 @@ from connexion_db import Connexion
 
 
 def E404(**kwargs):
+    tools.write_log("USER ERROR 404", "A user found a 404 error or is hacking the server")
     return "<img src='./static/assets/404.jpg' alt='Error 404 Page Not Found' style='min-height: 100%;width: 100%;height: auto;position: fixed;top: 0;left: 0;'/>"
 def E500(**kwargs):
+    tools.write_log("SERVER ERROR 500", "A user found a 500 error or is hacking the server")
     return "<img src='./static/assets/500.jpg' alt='Error 500 Internal Server Error' style='min-height: 100%;width: 100%;height: auto;position: fixed;top: 0;left: 0;'/>"
 
 class Website(object):

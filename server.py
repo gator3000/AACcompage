@@ -165,6 +165,11 @@ class Website(object):
             else:myerror="Remplissez bien tous les champs marqués d'une étoile (tous)."
         else:myerror=""
 
+    @cherrypy.expose
+    def logout(self, **kwargs):
+        cherrypy.session["current_account"] = self.ANNONYMOUS
+        raise cherrypy.HTTPRedirect("/")
+
 
 if __name__ == "__main__":
     # port 16384

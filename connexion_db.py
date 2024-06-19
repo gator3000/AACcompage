@@ -1,6 +1,7 @@
 import mysql.connector
 import sys
 import dbconf as config
+import tools
 
 class Connexion:
     def __init__(self, host=config.db_host, user=config.user_db, mdp=config.password, db=config.database):
@@ -12,14 +13,21 @@ class Connexion:
             self.connexion = mysql.connector.connect(host=self.host, user=self.user, password=self.password, database=self.database)
             self.cursor = self.connexion.cursor()
             config.init(self)
+            tools.write_log("CONNECTING", f"to database {self.database} as {self.user}@{self.host}", file="db.log")
         except Exception as e:
-            print(e)
+            tools.write_log("FAILED TO CONNECT", f"to database {self.database} as {self.user}@{self.host} due to {e}", file="db.log")
             self.testing = True
         else:
+            tools.write_log("CONNECTED", f"to database without errors!", file="db.log")
             self.testing = False
     def close(self):
         if self.connexion:
-            self.connexion.close()
+            try:
+                self.connexion.close()
+            except Exception as e:
+                tools.write_log("CLOSING CONNECTION FAILED", f"with database {self.database} as {self.user}@{self.host}", file="db.log")
+            else:
+                tools.write_log("CONNECTION CLOSED", f"with database without errors!", file="db.log")
     def __repr__(self):
         return f"Connexion to {self.database}@{self.host} under {self.user}"
     
@@ -35,6 +43,7 @@ class Connexion:
                 return f"<{typeof.capitalize()}CreationError>"
             finally:
                 self.connexion.commit()
+                tools.write_log("OPERATING", f"Creation worked without errors !", file="db.log")
         else:
             print("This function is not available in testing mode")
 
@@ -48,6 +57,7 @@ class Connexion:
                 print(e)
                 return "<SelectionError>"
             finally:
+                tools.write_log("OPERATING", f"Selection worked without errors !", file="db.log")
                 return self.cursor.fetchall()
         else:
             print("This function is not available in testing mode")
@@ -63,6 +73,7 @@ class Connexion:
                 return "<InsertionError>"
             finally:
                 self.connexion.commit()
+                tools.write_log("OPERATING", f"Insertion worked without errors !", file="db.log")
         else:
             print("This function is not available in testing mode")
 
@@ -77,6 +88,7 @@ class Connexion:
                 return "<DeletionError>"
             finally:
                 self.connexion.commit()
+                tools.write_log("OPERATING", f"Deletion worked without errors !", file="db.log")
         else:
             print("This function is not available in testing mode")
     
@@ -91,6 +103,7 @@ class Connexion:
                 return "<UpdatingError>"
             finally:
                 self.connexion.commit()
+                tools.write_log("OPERATING", f"Updating field worked without errors !", file="db.log")
         else:
             print("This function is not available in testing mode")
 

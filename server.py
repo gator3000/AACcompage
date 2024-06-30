@@ -101,7 +101,7 @@ class Website(object):
                         if len(kwargs["adress"]) < 256:
                             if kwargs["password"] == kwargs["retyped-password"]:
                                 if "@" in kwargs['email'] and kwargs['email'].split("@")[1]:
-                                    emails = self.connexion.SELECT("*", "drivingschools", f"email = {kwargs['email']}")
+                                    emails = self.connexion.SELECT("*", "drivingschools", f"email = '{kwargs['email']}'")
                                     if not emails:
                                         self.connexion.INSERT("drivingschools", ("name", "adress", "email", "number", "password", "description"), f""" ("{kwargs['name']}", "{kwargs['adress']}", "{kwargs['email']}", "{kwargs['number']}", "{tools.hashme(kwargs['password'])}", "{kwargs['description']}" )""")
                                         raise cherrypy.HTTPRedirect("/driving_schools")

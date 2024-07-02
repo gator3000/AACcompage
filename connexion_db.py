@@ -1,18 +1,35 @@
 import mysql.connector
 import sys
-import dbconf as config
-import tools
+
+class tools:
+    def __init__(self):
+        pass
+
+    def write_log(domain = "TESTING", content = "", file = "timeline.log") -> None:
+        print(log_now(domain.upper() + " " + content.capitalize(), mountharg="int"), file=open(file, "a"))
+
+    def log_now(log:str=None, mountharg:str="str") -> str:
+        date = str(datetime.date.today()).split("-")
+        months = ["Unk", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        day = date[2]
+        month = months[int(date[1])] if mountharg == "str" else date[1]
+        year = date[0]
+        date = "/".join([day,month,year])
+        hour = str(datetime.datetime.now())[11:19]
+        return f"[{date}:{hour}] " + ( log if log is not None else "" )
+
 
 class Connexion:
-    def __init__(self, host=config.db_host, user=config.user_db, mdp=config.password, db=config.database):
+    def __init__(self, host, user, mdp, db, init):
         self.host = host
         self.user = user
         self.password = mdp
         self.database = db
+        self.init = init
         try:
             self.connexion = mysql.connector.connect(host=self.host, user=self.user, password=self.password, database=self.database)
             self.cursor = self.connexion.cursor()
-            config.init(self)
+            self.init(self)
             tools.write_log("CONNECTING", f"to database {self.database} as {self.user}@{self.host}", file="db.log")
         except Exception as e:
             tools.write_log("FAILED TO CONNECT", f"to database {self.database} as {self.user}@{self.host} due to {e}", file="db.log")
